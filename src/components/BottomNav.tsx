@@ -11,12 +11,13 @@ import {
   LayoutDashboard,
   MessageSquare,
   BarChart3,
+  type LucideIcon,
 } from 'lucide-react';
 
 type NavItem = {
   href: string;
   label: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: LucideIcon;
   emphasized?: boolean;
 };
 
