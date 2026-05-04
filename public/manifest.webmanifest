@@ -1,0 +1,33 @@
+{
+  "name": "EEM · Bienestar laboral",
+  "short_name": "EEM",
+  "description": "La app de bienestar laboral de tu empresa, hecha por EEM.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f5f3",
+  "theme_color": "#ff5757",
+  "orientation": "portrait",
+  "lang": "es-CL",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["health", "lifestyle", "business"]
+}
