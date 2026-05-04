@@ -55,7 +55,8 @@ export default function CodigoPage() {
     const { error: authError } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/trabajador`,
+        // Va al route handler que intercambia code por sesión y luego redirige al next.
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=/trabajador`,
         data: empresa ? { empresa_id: empresa.id, rol: 'trabajador' } : {},
       },
     });
