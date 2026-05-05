@@ -12,6 +12,7 @@ import {
   AlertCircle,
   Clock,
   CheckCircle2,
+  Shield,
 } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
@@ -121,11 +122,12 @@ export default async function ResponsableDashboard() {
       </section>
 
       {/* Acciones rápidas */}
-      <nav className="mx-5 mt-4 grid grid-cols-4 gap-2">
+      <nav className="mx-5 mt-4 grid grid-cols-5 gap-2">
         {[
+          { label: 'F3', href: '/responsable/f3', icon: Shield },
           { label: 'Agendar', href: '/responsable/agendar', icon: CalendarPlus },
-          { label: 'Requerimiento', href: '/responsable/requerimiento', icon: PlusCircle },
-          { label: 'Equipo EEM', href: '/responsable/equipo-eem', icon: MessageSquare },
+          { label: 'Pedido', href: '/responsable/requerimiento', icon: PlusCircle },
+          { label: 'Equipo', href: '/responsable/equipo-eem', icon: MessageSquare },
           { label: 'Métricas', href: '/responsable/metricas', icon: BarChart3 },
         ].map(({ label, href, icon: Icon }) => (
           <Link

@@ -100,6 +100,15 @@ export default async function WelcomePage() {
         <p className="mt-10 text-center text-xs text-eem-dark-soft">
           EEM · Empresas Saludables Chile · eem-app.cl
         </p>
+        <p className="mt-2 text-center text-[10px] text-eem-dark-soft">
+          <Link href="/legal/privacidad" className="hover:text-eem-red">
+            Privacidad
+          </Link>
+          {' · '}
+          <Link href="/legal/terminos" className="hover:text-eem-red">
+            Términos
+          </Link>
+        </p>
       </div>
     </main>
   );
