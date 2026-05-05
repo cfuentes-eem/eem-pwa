@@ -4,7 +4,7 @@
  */
 
 import Link from 'next/link';
-import { ChevronLeft, FileText, Video, Headphones, ExternalLink, Salad, Filter } from 'lucide-react';
+import { ChevronLeft, FileText, Video, Headphones, ExternalLink, Salad, Filter , type LucideIcon} from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { requirePerfil } from '@/lib/perfil';
@@ -35,7 +35,7 @@ const PILAR_COLOR: Record<string, string> = {
   nutricion: '#5b8c2c',
 };
 
-const TIPO_ICON: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const TIPO_ICON: Record<string, LucideIcon> = {
   pdf: FileText,
   video: Video,
   audio: Headphones,
