@@ -4,7 +4,7 @@
  */
 
 import Link from 'next/link';
-import { ChevronLeft, AlertTriangle, AlertCircle, Info } from 'lucide-react';
+import { ChevronLeft, AlertTriangle, AlertCircle, Info, type LucideIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 
@@ -25,7 +25,7 @@ interface EmpresaShort {
   nombre: string;
 }
 
-const ICON: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const ICON: Record<string, LucideIcon> = {
   critica: AlertTriangle,
   warning: AlertCircle,
   info: Info,
