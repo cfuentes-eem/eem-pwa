@@ -1,9 +1,11 @@
 {
   "name": "EEM · Bienestar laboral",
   "short_name": "EEM",
-  "description": "La app de bienestar laboral de tu empresa, hecha por EEM.",
+  "description": "La app de bienestar laboral de tu empresa, hecha por EEM. Tu calendario de actividades, F3 anónimo y asistente IA en tu bolsillo.",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#f7f5f3",
   "theme_color": "#ff5757",
   "orientation": "portrait",
@@ -29,5 +31,25 @@
       "purpose": "maskable"
     }
   ],
-  "categories": ["health", "lifestyle", "business"]
+  "categories": ["health", "lifestyle", "business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Diagnóstico F3 anónimo",
+      "short_name": "F3",
+      "url": "/trabajador/f3",
+      "description": "Cinco minutos. Tu identidad no se guarda."
+    },
+    {
+      "name": "Calendario de actividades",
+      "short_name": "Calendario",
+      "url": "/trabajador/calendario"
+    },
+    {
+      "name": "Asistente EEM",
+      "short_name": "Asistente",
+      "url": "/trabajador/asistente",
+      "description": "Conversa sobre tu bienestar laboral."
+    }
+  ],
+  "prefer_related_applications": false
 }
