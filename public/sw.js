@@ -1,17 +1,14 @@
 /**
- * Service Worker EEM PWA.
+ * Service Worker EEM PWA v3.
  *
- * Estrategia v2:
- *   - Network-first para todo (HTML, JS, CSS, imágenes), con cache como fallback offline.
+ * Estrategia:
+ *   - Network-first universal con fallback a cache offline.
  *   - skipWaiting + clients.claim para forzar updates inmediatos en cada deploy.
+ *   - Push notifications: muestra notificación + click handler que abre URL.
  *   - Limpieza agresiva de caches viejos al activar.
- *
- * Por qué network-first incluso para assets: Next.js produce nombres con hash, así que
- * un cache stale solo afecta si el HTML referencia un asset que ya no existe. En la PWA
- * preferimos siempre red para que cada push deploye sin requerir hard reload del usuario.
  */
 
-const CACHE_NAME = 'eem-v2';
+const CACHE_NAME = 'eem-v3';
 const STATIC_ASSETS = ['/', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png'];
 
 self.addEventListener('install', (event) => {
@@ -24,11 +21,9 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     Promise.all([
-      // Borrar TODOS los caches que no sean el actual (incluye eem-v1 viejo).
       caches.keys().then((keys) =>
         Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))),
       ),
-      // Tomar control de páginas abiertas.
       self.clients.claim(),
     ]),
   );
@@ -38,15 +33,12 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
-  // No interceptar requests cross-origin (Supabase API, fonts, etc).
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Network-first universal con fallback a cache.
   event.respondWith(
     fetch(request)
       .then((response) => {
-        // Cachear solo respuestas exitosas para uso offline.
         if (response.ok && (request.mode === 'navigate' || request.destination === 'image')) {
           const copy = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => null);
@@ -54,5 +46,53 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() => caches.match(request).then((cached) => cached ?? caches.match('/'))),
+  );
+});
+
+// =============================================================================
+// Push notifications
+// =============================================================================
+
+self.addEventListener('push', (event) => {
+  if (!event.data) return;
+
+  let data;
+  try {
+    data = event.data.json();
+  } catch {
+    data = { title: 'EEM', body: event.data.text() };
+  }
+
+  const options = {
+    body: data.body ?? '',
+    icon: data.icon ?? '/icon-192.png',
+    badge: '/icon-192.png',
+    tag: data.tag,
+    data: { url: data.url ?? '/' },
+    requireInteraction: false,
+    silent: false,
+    lang: 'es-CL',
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title ?? 'EEM', options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = event.notification.data?.url ?? '/';
+
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      // Si ya hay un cliente abierto, navegar y enfocar.
+      for (const client of clients) {
+        if ('navigate' in client && 'focus' in client) {
+          return client.navigate(url).then(() => client.focus());
+        }
+      }
+      // Si no, abrir nueva ventana.
+      if (self.clients.openWindow) {
+        return self.clients.openWindow(url);
+      }
+    }),
   );
 });

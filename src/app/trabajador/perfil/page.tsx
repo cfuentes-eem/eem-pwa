@@ -4,6 +4,7 @@ import { ChevronLeft, Building2, Mail, LogOut } from 'lucide-react';
 import { requirePerfil, initialsOf } from '@/lib/perfil';
 import { logoutAction } from './actions';
 import { BottomNav } from '@/components/BottomNav';
+import { PushToggle } from '@/components/PushToggle';
 
 export default async function PerfilTrabajadorPage() {
   const perfil = await requirePerfil('trabajador');
@@ -40,7 +41,11 @@ export default async function PerfilTrabajadorPage() {
           </div>
         </div>
 
-        <div className="mt-6 rounded-2xl bg-white border border-eem-line p-4">
+        <div className="mt-6">
+          <PushToggle userId={perfil.user_id} />
+        </div>
+
+        <div className="mt-3 rounded-2xl bg-white border border-eem-line p-4">
           <p className="text-[10px] font-bold uppercase tracking-wider text-eem-dark-soft">
             Soporte
           </p>
@@ -72,6 +77,13 @@ export default async function PerfilTrabajadorPage() {
             Cerrar sesión
           </button>
         </form>
+
+        <Link
+          href="/trabajador/perfil/eliminar"
+          className="mt-3 block text-center text-[11px] text-eem-dark-soft hover:text-eem-red"
+        >
+          Eliminar mi cuenta
+        </Link>
       </div>
 
       <BottomNav rol="trabajador" />
