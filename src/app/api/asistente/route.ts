@@ -147,8 +147,11 @@ export async function POST(request: Request) {
       await supabase.from('agente_conversaciones').insert({
         user_id: user.id,
         empresa_id: (perfilRow as { empresa_id: string } | null)?.empresa_id,
-        mensaje_usuario: body.mensaje,
-        respuesta_agente: respuesta,
+                prompt: body.mensaje,
+                response: respuesta,
+        historial_count: (body.historial ?? []).length,
+        modo: 'web_pwa',
+        model: 'claude-haiku-4-5-20251001',
       });
     } catch {
       // No bloquear la respuesta al usuario por error de persistencia.
